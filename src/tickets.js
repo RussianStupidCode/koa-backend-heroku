@@ -60,7 +60,7 @@ export default class Tickets {
       name,
       status,
       id: this.currentId,
-      created: moment(),
+      created: moment().unix(),
     };
 
     this.tickets.push(ticket);
