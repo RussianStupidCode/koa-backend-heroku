@@ -3,6 +3,7 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import bodyParser from 'koa-body-parser';
 import http from 'http';
+import cors from 'koa-cors';
 import Tickets from './tickets.js';
 
 const app = new Koa();
@@ -26,7 +27,11 @@ router.post('/createTicket', async (ctx) => {
   ctx.response.body = ticket;
 });
 
-app.use(bodyParser()).use(router.routes()).use(router.allowedMethods());
+app
+  .use(bodyParser())
+  .use(cors())
+  .use(router.routes())
+  .use(router.allowedMethods());
 
 const port = process.env.PORT || 7070;
 http.createServer(app.callback()).listen(port);
