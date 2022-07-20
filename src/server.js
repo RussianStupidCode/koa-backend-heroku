@@ -40,7 +40,7 @@ router.get('/allTickets', async (ctx) => {
   ctx.response.body = tickets.allTickets;
 });
 
-router.patch('/ticketById/:id', async (ctx) => {
+router.put('/ticketById/:id', async (ctx) => {
   const { name, description, status } = ctx.request.body;
   const { id } = ctx.params;
 
