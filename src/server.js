@@ -13,11 +13,44 @@ const tickets = new Tickets();
 router.get('/ticketById/:id', async (ctx) => {
   const { id } = ctx.params;
 
-  ctx.response.body = tickets.getTicket(Number(id));
+  try {
+    const ticket = tickets.getTicket(Number(id));
+    ctx.response.body = ticket;
+  } catch (err) {
+    ctx.response.status = 400;
+    ctx.response.body = { error: String(err) };
+  }
+});
+
+router.delete('/ticketById/:id', async (ctx) => {
+  const { id } = ctx.params;
+
+  try {
+    tickets.deleteTicket(Number(id));
+  } catch (err) {
+    ctx.response.status = 400;
+    ctx.response.body = { error: String(err) };
+    return;
+  }
+
+  ctx.response.body = { ok: 'ok' };
 });
 
 router.get('/allTickets', async (ctx) => {
   ctx.response.body = tickets.allTickets;
+});
+
+router.patch('/ticketById/:id', async (ctx) => {
+  const { name, description, status } = ctx.request.body;
+  const { id } = ctx.params;
+
+  try {
+    const ticket = tickets.updateTicket(Number(id), name, description, status);
+    ctx.response.body = ticket;
+  } catch (err) {
+    ctx.response.status = 400;
+    ctx.response.body = { error: String(err) };
+  }
 });
 
 router.post('/createTicket', async (ctx) => {
